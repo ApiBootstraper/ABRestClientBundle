@@ -2,6 +2,11 @@
 
 namespace TP\Bundle\TPRestClientBundle\Model;
 
+/**
+ * Base Model
+ *
+ * @author Nicolas Brousse <nicolas@trackline-project.net>
+ */
 Abstract class Model
 {
     // public function __set($name, $value)

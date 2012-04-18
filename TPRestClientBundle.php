@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * The media exposer bundle
+ * Rest Client bundle
  *
  * @author Nicolas Brousse <nicolas@trackline-project.net>
  */

@@ -2,6 +2,11 @@
 
 namespace TP\Bundle\TPRestClientBundle\Request;
 
+/**
+ * Base Request
+ *
+ * @author Nicolas Brousse <nicolas@trackline-project.net>
+ */
 class Request
 {
     // $response = Request::get()->setPath("user/:uuid", array("uuid", $uuid));
