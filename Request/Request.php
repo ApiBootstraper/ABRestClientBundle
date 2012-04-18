@@ -90,7 +90,7 @@ class Request
         /**
          * TODO set Base Url with config.yml
          */
-        $this->setBaseUrl();
+        $this->setBaseUrl("");
     }
 
     /**

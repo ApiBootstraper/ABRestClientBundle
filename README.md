@@ -1,8 +1,7 @@
 TPRestClientBundle
 =====================
 
-This Symfony2 Bundle is based on [educoder][pest]
-library for your Symfony project.
+This Symfony2 Bundle is based on [PEST](/educoder/pest) library for your Symfony project.
 
 Installation
 ------------
@@ -57,4 +56,6 @@ Configuration
 
 tp_rest_client:
     base_url:   'http://api.domain.tld'
+    headers:
+        - "X-Api-Version: 1"
 ```
