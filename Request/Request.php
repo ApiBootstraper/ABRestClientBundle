@@ -16,10 +16,10 @@ class Request
     private $curl;
     private $base_url;
     private $path;
-    private $headers;
-    protected $datas;
-    private $queries;
-    private $curlopts;
+    private $headers = array();
+    protected $datas = array();
+    private $queries = array();
+    private $curlopts = array();
 
     protected $format = null;
 
@@ -188,15 +188,15 @@ class Request
     /**
      * Add or Set Queries
      */
-    public function addQuery($query)
+    public function addQuery($query, $value)
     {
-        $this->queries[] = $query;
+        $this->queries[$query] = $value;
         return $this;
     }
     public function addQueries(array $queries)
     {
-        foreach($queries as $query) {
-            $this->addQuery($query);
+        foreach($queries as $query=>$value) {
+            $this->addQuery($query, $value);
         }
         return $this;
     }
@@ -219,8 +219,8 @@ class Request
         else {
             $url = $this->path;
         }
-        $url = $url . (if (!empty($this->queries)) ? "?".http_build_query($this->queries) : "");
-        return $rul;
+        $url = $url . ( !empty($this->queries) ? "?".http_build_query($this->queries) : "");
+        return $url;
     }
 
 
