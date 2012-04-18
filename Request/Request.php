@@ -3,6 +3,8 @@
 namespace TP\Bundle\TPRestClientBundle\Request;
 
 use TP\Bundle\TPRestClientBundle\Response\Response;
+use TP\Bundle\TPRestClientBundle\Response\JsonResponse;
+use TP\Bundle\TPRestClientBundle\Response\XmlResponse;
 
 /**
  * Base Request
@@ -14,6 +16,7 @@ class Request
     private $curl;
     private $base_url;
     private $path;
+    private $headers;
     protected $datas;
     private $queries;
     private $curlopts;
@@ -28,46 +31,51 @@ class Request
      */
     public static function head($base_url=null)
     {
-        if (!empty($base_url)) $this->setBaseUrl($base_url);
-
-        $request = new Request();
-        $this->addCurlopt(CURLOPT_CUSTOMREQUEST, 'HEAD');
+        $request = self::newRequest();
+        if (!empty($base_url)) {
+            $request->setBaseUrl($base_url);
+        }
+        $request->addCurlopt(CURLOPT_CUSTOMREQUEST, 'HEAD');
         return $request;
     }
 
     public static function get($base_url=null)
     {
-        if (!empty($base_url)) $this->setBaseUrl($base_url);
-
-        $request = new Request();
-        $this->addCurlopt(CURLOPT_CUSTOMREQUEST, 'GET');
+        $request = self::newRequest();
+        if (!empty($base_url)) {
+            $request->setBaseUrl($base_url);
+        }
+        $request->addCurlopt(CURLOPT_CUSTOMREQUEST, 'GET');
         return $request;
     }
 
     public static function post($base_url=null)
     {
-        if (!empty($base_url)) $this->setBaseUrl($base_url);
-
-        $request = new Request();
-        $this->addCurlopt(CURLOPT_CUSTOMREQUEST, 'POST');
+        $request = self::newRequest();
+        if (!empty($base_url)) {
+            $request->setBaseUrl($base_url);
+        }
+        $request->addCurlopt(CURLOPT_CUSTOMREQUEST, 'POST');
         return $request;
     }
 
     public static function put($base_url=null)
     {
-        if (!empty($base_url)) $this->setBaseUrl($base_url);
-
-        $request = new Request();
-        $this->addCurlopt(CURLOPT_CUSTOMREQUEST, 'PUT');
+        $request = self::newRequest();
+        if (!empty($base_url)) {
+            $request->setBaseUrl($base_url);
+        }
+        $request->addCurlopt(CURLOPT_CUSTOMREQUEST, 'PUT');
         return $request;
     }
 
     public static function delete($base_url=null)
     {
-        if (!empty($base_url)) $this->setBaseUrl($base_url);
-
-        $request = new Request();
-        $this->addCurlopt(CURLOPT_CUSTOMREQUEST, 'DELETE');
+        $request = self::newRequest();
+        if (!empty($base_url)) {
+            $request->setBaseUrl($base_url);
+        }
+        $request->addCurlopt(CURLOPT_CUSTOMREQUEST, 'DELETE');
         return $request;
     }
 
@@ -91,6 +99,18 @@ class Request
          * TODO set Base Url with config.yml
          */
         $this->setBaseUrl("");
+    }
+    public static function newRequest()
+    {
+        if (get_called_class() == "TP\Bundle\TPRestClientBundle\Request\JsonRequest") {
+            return new JsonRequest();
+        }
+        elseif (get_called_class() == "TP\Bundle\TPRestClientBundle\Request\XmlRequest") {
+            return new XmlRequest();
+        }
+        else {
+            return new Request();
+        }
     }
 
     /**
@@ -212,20 +232,20 @@ class Request
         else {
             $url = $this->path;
         }
-        $this->curl = curl_init($url);
-
-        foreach ($this->curlopts as $opt=>$val) {
-            curl_setopt($this->curl, $opt, $val);
-        }
 
         $this->addCurlopt(CURLOPT_HTTPHEADER, $this->headers);
-        $this->curl = $this->prepRequest($this->curlopts, $url);
 
         // If request is post or put, we add the datas
         if ($this->curlopts[CURLOPT_CUSTOMREQUEST] == 'POST' || $this->curlopts[CURLOPT_CUSTOMREQUEST] == 'PUT')
         {
             $this->addHeader('Content-Length: '.strlen($this->getDatas()));
             $this->addCurlopt(CURLOPT_POSTFIELDS, $this->getDatas());
+        }
+
+        $this->curl = curl_init($url);
+
+        foreach ($this->curlopts as $opt=>$val) {
+            curl_setopt($this->curl, $opt, $val);
         }
 
         // Do the request

@@ -51,7 +51,8 @@ class Response
     }
 
 
-    protected function checkErrors() {
+    protected function checkErrors()
+    {
         if (!$this->throw_exceptions) {
             return;
         }
@@ -60,7 +61,8 @@ class Response
         }
 
         $err = null;
-        switch ($this->meta['http_code']) {
+        switch ($this->meta['http_code'])
+        {
             case 400:
                 throw new BadRequest($this->processError());
                 break;
@@ -91,16 +93,15 @@ class Response
                 throw new InvalidRecord($this->processError());
                 break;
             default:
-                if ($meta['http_code'] >= 400 && $meta['http_code'] <= 499) {
+                if ($this->meta['http_code'] >= 400 && $this->meta['http_code'] <= 499) {
                     throw new ClientError($this->processError());
                 }
-                elseif ($meta['http_code'] >= 500 && $meta['http_code'] <= 599) {
+                elseif ($this->meta['http_code'] >= 500 && $this->meta['http_code'] <= 599) {
                     throw new ServerError($this->processError());
                 }
-                elseif (!$meta['http_code'] || $meta['http_code'] >= 600) {
+                elseif (!$this->meta['http_code'] || $this->meta['http_code'] >= 600) {
                     throw new UnknownResponse($this->processError());
                 }
-            }
         }
     }
 }

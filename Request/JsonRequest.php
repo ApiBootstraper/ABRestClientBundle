@@ -7,8 +7,10 @@ class JsonRequest extends Request
     public function __construct()
     {
         $this->setFormat('json');
-        $opts[CURLOPT_HTTPHEADER][] = 'Accept: application/json';
-        $opts[CURLOPT_HTTPHEADER][] = 'Content-Type: application/json';
+        $this->addHeaders(array(
+            'Accept: application/json',
+            'Content-Type: application/json',
+        ));
         parent::__construct();
     }
 
@@ -20,7 +22,7 @@ class JsonRequest extends Request
         $this->datas[] = $data;
         return $this;
     }
-    public function setDatas(array $datas)
+    public function setDatas($datas)
     {
         $this->datas = $datas;
         return $this;
