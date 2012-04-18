@@ -25,4 +25,8 @@ class TPRestClientExtension extends Extension
      *   headers:
      *     - "X-Api-Version: 1"
      */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        
+    }
 }
