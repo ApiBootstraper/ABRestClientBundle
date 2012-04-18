@@ -9,8 +9,8 @@ namespace TP\Bundle\TPRestClientBundle\Response;
  */
 class Response
 {
-    private $meta;
-    private $body;
+    protected $meta;
+    protected $body;
     private $throw_exceptions = true;
 
     public function __construct($meta, $body)
@@ -61,7 +61,7 @@ class Response
         }
 
         $err = null;
-        switch ($this->meta['http_code'])
+        switch ($this->getStatus())
         {
             case 400:
                 throw new BadRequest($this->processError());
@@ -93,13 +93,13 @@ class Response
                 throw new InvalidRecord($this->processError());
                 break;
             default:
-                if ($this->meta['http_code'] >= 400 && $this->meta['http_code'] <= 499) {
+                if ($this->getStatus() >= 400 && $this->getStatus() <= 499) {
                     throw new ClientError($this->processError());
                 }
-                elseif ($this->meta['http_code'] >= 500 && $this->meta['http_code'] <= 599) {
+                elseif ($this->getStatus() >= 500 && $this->getStatus() <= 599) {
                     throw new ServerError($this->processError());
                 }
-                elseif (!$this->meta['http_code'] || $this->meta['http_code'] >= 600) {
+                elseif (!$this->getStatus() || $this->getStatus() >= 600) {
                     throw new UnknownResponse($this->processError());
                 }
         }

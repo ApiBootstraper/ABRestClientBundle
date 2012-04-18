@@ -21,7 +21,7 @@ class Request
     private $queries;
     private $curlopts;
 
-    private $format;
+    protected $format = null;
 
     private $response;
 
@@ -111,15 +111,6 @@ class Request
         else {
             return new Request();
         }
-    }
-
-    /**
-     * Set Request and Response format
-     */
-    public function setFormat($format)
-    {
-        if (in_array($format, array("xml", "json")))
-        return $this;
     }
 
     /**
@@ -220,18 +211,26 @@ class Request
     }
 
 
-    /**
-     * Execute Request
-     */
-    public function execute()
+    public function getFormatedUrl()
     {
-        // Prepare request
         if (strncmp($this->path, $this->base_url, strlen($this->base_url)) != 0) {
             $url = $this->base_url . $this->path;
         }
         else {
             $url = $this->path;
         }
+        $url = $url . (if (!empty($this->queries)) ? "?".http_build_query($this->queries) : "");
+        return $rul;
+    }
+
+
+    /**
+     * Execute Request
+     */
+    public function execute()
+    {
+        // Prepare request
+        $url = $this->getFormatedUrl();
 
         $this->addCurlopt(CURLOPT_HTTPHEADER, $this->headers);
 
@@ -249,8 +248,8 @@ class Request
         }
 
         // Do the request
-        $meta = curl_getinfo($this->curl);
         $body = curl_exec($this->curl);
+        $meta = curl_getinfo($this->curl);
 
         switch ($this->format) {
             case 'json':

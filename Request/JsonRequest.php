@@ -6,7 +6,7 @@ class JsonRequest extends Request
 {
     public function __construct()
     {
-        $this->setFormat('json');
+        $this->format = 'json';
         $this->addHeaders(array(
             'Accept: application/json',
             'Content-Type: application/json',
