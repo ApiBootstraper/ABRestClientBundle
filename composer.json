@@ -1,0 +1,24 @@
+{
+    "name":         "tracklineproject/tp-rest-client-bundle",
+    "type":         "symfony-bundle",
+    "description":  "Allows to easily use the media exposer library in a Symfony project",
+    "keywords":     ["rest", "rest client", "api"],
+    "homepage":     "http://trackline-project.net",
+    "license":      "MIT",
+    "authors":      [
+        {
+            "name":     "Nicolas Brousse",
+            "email":    "nicolas@trackline-project.net"
+        }
+    ],
+    "require":      {
+        "symfony/framework-bundle": "2.*",
+        "tracklineproject/rest-client":    "*"
+    },
+    "autoload":     {
+        "psr-0": {
+            "TP\\Bundle\\RestClientBundle": ""
+        }
+    },
+    "target-dir":   "TP/Bundle/RestClientBundle"
+}
