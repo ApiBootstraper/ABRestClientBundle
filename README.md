@@ -46,7 +46,8 @@ public function registerBundles()
 }
 ```
 
-You can now proceed to the configuration.
+
+Configurations are not implemented yet
 
 Configuration
 -------------
@@ -55,7 +56,8 @@ Configuration
 # app/config/config.yml
 
 tp_rest_client:
-    base_url:   'http://api.domain.tld'
-    headers:
-        - "X-Api-Version: 1"
+    defaults:
+        base_url:   'http://api.domain.tld'
+        headers:
+            - "X-Api-Version: 1"
 ```
